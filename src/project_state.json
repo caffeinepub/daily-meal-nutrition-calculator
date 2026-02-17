@@ -1,0 +1,309 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 11,
+  "summary": "Build a mobile-friendly web app called \"Daily Meal Nutrition Calculator\" that lets users enter foods, fetch/estimate nutrition via a public API, build meals and track multiple meals per day with daily totals, comparisons to recommended intake, health hints, and local browser saving; designed for future premium feature expansion.",
+  "architectural_notes": [
+    "Design the codebase to be modular/extensible so premium features (diet plans, AI meal suggestions, progress charts) can be added later.",
+    "Use a public nutrition API (e.g., USDA FoodData Central) as the authoritative data source for nutrients."
+  ],
+  "known_issues": [
+    "Deployment/build failed previously with a deployment error; user requested a retry."
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-mobile-first-react-ui-for-the-daily-meal-nutrition-calculator-with-three-clearly-separated-sections-1-current-meal-builder-2-all-meals-today-3-daily-nutrition-summary-dashboard-include-a-simple-food-input-box-and-an-add-food-button-as-the-primary-action",
+      "title": "Create a mobile-first React UI for the Daily Meal Nutrition Calculator with three clearly separated sections: (1) Current meal builder, (2) All meals today, (3) Daily nutrition summary dashboard; include a simple food input box and an “Add Food” button as the primary action.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-free-text-food-entry-parsing-to-identify-one-or-more-food-items-from-a-single-user-input-e-g-2-chapati-and-dal-paneer-banana-veg-biryani-including-basic-quantity-parsing-when-present-default-to-one-serving-when-quantity-is-not-provided",
+      "title": "Implement free-text food entry parsing to identify one or more food items from a single user input (e.g., \"2 chapati and dal\", \"paneer\", \"banana\", \"veg biryani\"), including basic quantity parsing when present; default to one serving when quantity is not provided.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-a-public-nutrition-api-usda-fooddata-central-or-equivalent-to-search-foods-and-fetch-nutrient-details-and-map-results-into-a-normalized-nutrient-model-that-includes-calories-protein-carbohydrates-fat-fiber-sugar-and-basic-vitamins-minerals-when-available",
+      "title": "Integrate a public nutrition API (USDA FoodData Central or equivalent) to search foods and fetch nutrient details, and map results into a normalized nutrient model that includes calories, protein, carbohydrates, fat, fiber, sugar, and basic vitamins & minerals when available.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-serving-size-estimation-and-editing-for-each-added-food-show-the-estimated-serving-amount-and-allow-the-user-to-change-quantity-using-common-units-grams-pieces-cups-and-re-calculate-nutrition-accordingly",
+      "title": "Provide serving size estimation and editing: for each added food, show the estimated serving amount and allow the user to change quantity using common units (grams, pieces, cups) and re-calculate nutrition accordingly.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-nutrition-results-in-a-clean-readable-table-for-a-each-food-item-and-b-the-current-meal-totals-covering-calories-protein-carbs-fat-fiber-sugar-plus-a-section-table-for-vitamins-minerals",
+      "title": "Display nutrition results in a clean, readable table for (a) each food item and (b) the current meal totals, covering calories, protein, carbs, fat, fiber, sugar, plus a section/table for vitamins & minerals.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-meal-builder-allow-users-to-add-multiple-foods-into-a-single-meal-edit-remove-foods-from-that-meal-and-show-the-meal-s-total-nutrition",
+      "title": "Implement Meal Builder: allow users to add multiple foods into a single meal, edit/remove foods from that meal, and show the meal’s total nutrition.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-daily-tracker-allow-users-to-create-multiple-meals-for-a-day-including-breakfast-lunch-snacks-dinner-and-a-custom-meal-name-option-allow-moving-saving-the-current-meal-into-one-of-these-meal-slots-and-viewing-all-meals-today",
+      "title": "Implement Daily Tracker: allow users to create multiple meals for a day including Breakfast, Lunch, Snacks, Dinner, and a custom meal name option; allow moving/saving the Current meal into one of these meal slots and viewing all meals today.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-compute-and-display-daily-aggregates-across-all-meals-for-calories-protein-carbs-fat-fiber-and-sugar-show-a-daily-nutrition-summary-dashboard-with-these-totals",
+      "title": "Compute and display daily aggregates across all meals for calories, protein, carbs, fat, fiber, and sugar; show a Daily Nutrition Summary Dashboard with these totals.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-smart-comparisons-and-hints-compare-daily-totals-with-recommended-daily-intake-values-and-display-health-hints-such-as-protein-low-today-calories-exceeded-and-balanced-meal-based-on-simple-rule-thresholds",
+      "title": "Add “smart” comparisons and hints: compare daily totals with recommended daily intake values and display health hints such as “Protein low today”, “Calories exceeded”, and “Balanced meal” based on simple rule thresholds.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-today-s-meals-locally-in-browser-storage-and-restore-them-on-app-load-include-a-clear-action-to-reset-clear-today-s-data",
+      "title": "Persist today’s meals locally in browser storage and restore them on app load; include a clear action to reset/clear today’s data.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-api-configuration-ux-for-the-chosen-nutrition-api-e-g-usda-fooddata-central-api-key-allow-users-to-enter-update-the-api-key-in-the-ui-and-store-it-locally-browser-storage-and-ensure-all-api-calls-use-the-stored-key",
+      "title": "Add an API configuration UX for the chosen nutrition API (e.g., USDA FoodData Central API key): allow users to enter/update the API key in the UI and store it locally (browser storage), and ensure all API calls use the stored key.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-beginner-friendly-documentation-and-comments-include-setup-run-instructions-explain-where-to-configure-the-nutrition-api-key-and-add-inline-comments-for-key-parsing-api-mapping-totals-computation-and-persistence-logic",
+      "title": "Provide beginner-friendly documentation and comments: include setup/run instructions, explain where to configure the nutrition API key, and add inline comments for key parsing, API mapping, totals computation, and persistence logic.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-structure-the-code-for-future-premium-features-by-introducing-clear-modular-boundaries-e-g-nutrition-api-client-module-domain-models-meal-day-state-management-module-and-ui-components-so-future-additions-like-diet-plans-ai-meal-suggestions-and-progress-charts-can-be-added-without-refactoring-core-flows",
+      "title": "Structure the code for future premium features by introducing clear modular boundaries (e.g., nutrition API client module, domain models, meal/day state management module, and UI components) so future additions like diet plans, AI meal suggestions, and progress charts can be added without refactoring core flows.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-coherent-visual-theme-colors-typography-spacing-component-styling-suitable-for-a-modern-health-food-calculator-and-enforce-it-consistently-across-all-screens-avoid-a-blue-purple-dominant-palette-unless-explicitly-requested",
+      "title": "Apply a coherent visual theme (colors, typography, spacing, component styling) suitable for a modern health/food calculator and enforce it consistently across all screens; avoid a blue/purple-dominant palette unless explicitly requested.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-generated-app-icon-logo-as-a-static-asset-and-display-it-in-the-app-header-and-as-favicon-app-icon-where-applicable-without-routing-image-delivery-through-the-backend",
+      "title": "Add a generated app icon/logo as a static asset and display it in the app header (and as favicon/app icon where applicable) without routing image delivery through the backend.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-user-editable-daily-goal-targets-for-calories-and-protein-and-use-these-targets-instead-of-fixed-defaults-when-rendering-progress-toward-goals-in-the-daily-nutrition-summary-dashboard",
+      "title": "Add user-editable daily goal targets for Calories and Protein and use these targets (instead of fixed defaults) when rendering progress toward goals in the Daily Nutrition Summary dashboard.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-clear-ui-control-in-the-daily-nutrition-summary-dashboard-to-edit-the-daily-goal-targets-for-calories-and-protein-english-user-facing-text",
+      "title": "Provide a clear UI control in the Daily Nutrition Summary dashboard to edit the daily goal targets for Calories and Protein (English user-facing text).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-the-user-s-daily-goal-targets-for-calories-and-protein-in-browser-localstorage-and-restore-them-on-app-load-fall-back-to-existing-default-recommended-values-when-nothing-is-saved",
+      "title": "Persist the user’s daily goal targets for Calories and Protein in browser localStorage and restore them on app load; fall back to existing default recommended values when nothing is saved.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-health-hint-calculations-to-use-the-user-s-custom-calories-and-protein-targets-when-set-for-comparisons-related-to-calories-protein-keep-other-hint-logic-unchanged",
+      "title": "Update health hint calculations to use the user’s custom Calories and Protein targets (when set) for comparisons related to calories/protein; keep other hint logic unchanged.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-document-the-new-editable-daily-goals-feature-in-the-frontend-readme-including-where-goals-are-stored-localstorage-and-how-defaults-are-determined",
+      "title": "Document the new editable daily goals feature in the frontend README, including where goals are stored (localStorage) and how defaults are determined.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-small-reminder-section-in-the-daily-nutrition-summary-dashboard-that-shows-how-much-of-each-daily-goal-is-left-for-today-based-on-current-daily-totals-vs-the-user-s-effective-daily-goals",
+      "title": "Add a small reminder section in the Daily Nutrition Summary dashboard that shows how much of each daily goal is left for today based on current daily totals vs the user’s effective daily goals.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-identify-the-root-cause-of-the-previous-deployment-failure-and-update-the-project-configuration-code-so-that-a-clean-local-deploy-completes-successfully-using-the-standard-internet-computer-workflow-e-g-dfx-start-then-dfx-deploy",
+      "title": "Identify the root cause of the previous deployment failure and update the project configuration/code so that a clean local deploy completes successfully using the standard Internet Computer workflow (e.g., `dfx start` then `dfx deploy`).",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-clear-english-troubleshooting-guidance-for-deployment-build-failures-in-the-existing-documentation-including-the-exact-command-sequence-to-deploy-locally-and-the-most-likely-failure-points-for-this-project-frontend-build-canister-compile-dfx-configuration",
+      "title": "Add clear, English troubleshooting guidance for deployment/build failures in the existing documentation, including the exact command sequence to deploy locally and the most likely failure points for this project (frontend build, canister compile, dfx configuration).",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-build-deploy-error-visibility-by-ensuring-that-any-failing-step-surfaces-actionable-error-output-do-not-swallow-errors-if-the-failure-is-caused-by-an-unmet-prerequisite-missing-config-env-ensure-the-app-shows-a-clear-english-message-explaining-what-is-missing-and-how-to-fix-it",
+      "title": "Improve build/deploy error visibility by ensuring that any failing step surfaces actionable error output (do not swallow errors); if the failure is caused by an unmet prerequisite (missing config/env), ensure the app shows a clear English message explaining what is missing and how to fix it.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-food-quantity-unit-editing-so-a-user-can-specify-an-exact-amount-in-grams-and-other-supported-units-per-food-item-and-ensure-the-app-uses-that-amount-when-calculating-and-displaying-nutrition",
+      "title": "Update the food quantity/unit editing so a user can specify an exact amount in grams (and other supported units) per food item, and ensure the app uses that amount when calculating and displaying nutrition.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-enough-serving-size-metadata-on-each-fooditem-to-accurately-convert-user-entered-grams-or-matching-units-into-a-multiplier-against-the-food-s-baseline-serving-and-use-this-conversion-in-meal-day-totals",
+      "title": "Persist enough serving-size metadata on each FoodItem to accurately convert user-entered grams (or matching units) into a multiplier against the food’s baseline serving, and use this conversion in meal/day totals.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enhance-free-text-input-parsing-so-users-can-specify-grams-units-inline-including-no-space-forms-like-100g-rice-and-apply-the-parsed-quantity-unit-to-the-added-fooditem",
+      "title": "Enhance free-text input parsing so users can specify grams/units inline (including no-space forms like “100g rice”), and apply the parsed quantity/unit to the added FoodItem.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Food input parsing to identify food item(s) from free-text entries (e.g., \"2 chapati and dal\")",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Serving size estimation with user-adjustable quantity units (grams/pieces/cups)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Nutrition calculation and display: calories, macros (protein/carbs/fat), fiber, sugar, and basic vitamins/minerals in a clean table",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Integrate a public nutrition API (USDA FoodData Central or equivalent) for food search and nutrient data",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Meal Builder: add multiple foods into a single meal and show per-meal nutrition totals",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Daily Tracker: support multiple meals per day (Breakfast/Lunch/Snacks/Dinner) plus custom meal names, with daily aggregated totals and a Daily Nutrition Summary Dashboard",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Smart insights: compare daily totals to recommended daily intake and show health hints (e.g., protein low, calories exceeded, balanced)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Persist today's meals locally in browser storage (localStorage or equivalent)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "UI/UX requirements: clean modern mobile-first responsive layout with sections for Current meal, All meals today, and Daily totals dashboard; simple food input + Add Food button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Deliverable: provide complete working project code with comments, setup instructions, beginner-friendly and fast, and structured for future premium features (diet plans, AI suggestions, progress charts)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Allow users to edit/set daily goal targets for calories and protein (daily goals adjustable by the user)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add a small reminder section showing how much of each daily goal (e.g., calories/protein) is left for today based on current totals vs user targets",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Daily Meal Nutrition Calculator",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

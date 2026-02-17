@@ -1,0 +1,69 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-food-quantity-unit-editing-so-a-user-can-specify-an-exact-amount-in-grams-and-other-supported-units-per-food-item-and-ensure-the-app-uses-that-amount-when-calculating-and-displaying-nutrition",
+      "featureTitle": "Update the food quantity/unit editing so a user can specify an exact amount in grams (and other supported units) per food item, and ensure the app uses that amount when calculating and displaying nutrition.",
+      "files": [
+        "frontend/src/components/all-meals/AllMealsTodaySection.tsx",
+        "frontend/src/components/current-meal/CurrentMealSection.tsx",
+        "frontend/src/components/current-meal/FoodRowEditor.tsx",
+        "frontend/src/utils/aggregations.ts",
+        "frontend/src/utils/servingMath.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-25"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-persist-enough-serving-size-metadata-on-each-fooditem-to-accurately-convert-user-entered-grams-or-matching-units-into-a-multiplier-against-the-food-s-baseline-serving-and-use-this-conversion-in-meal-day-totals",
+      "featureTitle": "Persist enough serving-size metadata on each FoodItem to accurately convert user-entered grams (or matching units) into a multiplier against the food’s baseline serving, and use this conversion in meal/day totals.",
+      "files": [
+        "frontend/src/components/current-meal/FoodRowEditor.tsx",
+        "frontend/src/domain/models.ts",
+        "frontend/src/services/nutritionApiClient.ts",
+        "frontend/src/state/useDayMeals.ts",
+        "frontend/src/utils/aggregations.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-26"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-enhance-free-text-input-parsing-so-users-can-specify-grams-units-inline-including-no-space-forms-like-100g-rice-and-apply-the-parsed-quantity-unit-to-the-added-fooditem",
+      "featureTitle": "Enhance free-text input parsing so users can specify grams/units inline (including no-space forms like “100g rice”), and apply the parsed quantity/unit to the added FoodItem.",
+      "files": [
+        "frontend/src/components/current-meal/CurrentMealSection.tsx",
+        "frontend/src/domain/models.ts",
+        "frontend/src/utils/foodParser.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-27"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

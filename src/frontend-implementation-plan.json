@@ -1,0 +1,105 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Per-food quantity/unit editing with gram support, serving metadata, and improved free-text parsing",
+  "requirements": [
+    {
+      "id": "REQ-25",
+      "summary": "Make each Current Meal Builder food row explicitly editable for quantity and unit (including grams), and recalculate per-food nutrients and meal totals from the user-entered amount/unit.",
+      "acceptanceCriteria": [
+        "In the Current Meal Builder, each food row allows editing both quantity and unit of measure in a clear, explicit way (English labels).",
+        "Selecting/entering a grams-based quantity (e.g., 150 grams) changes the computed calories/macros for that food and updates Meal Totals accordingly.",
+        "Changing the unit (e.g., grams -> cups/pieces/serving) updates calculations consistently and does not require re-adding the food item."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/current-meal/FoodRowEditor.tsx",
+          "operation": "modify",
+          "description": "Update the row editor UI to use explicit English labels (e.g., “Amount”, “Unit”) and compute/display scaled calories/macros based on the user-entered amount+unit using the app’s conversion logic; include a stable English fallback message when the selected unit can’t be safely converted from the baseline unit (treat as serving multiplier). Use shadcn-ui components already in use (e.g., Input, Select, Card, Label) for consistent layout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/aggregations.ts",
+          "operation": "modify",
+          "description": "Update meal totals aggregation to use a computed multiplier derived from FoodItem amount/unit vs baseline serving metadata (rather than assuming multiplier === quantity), ensuring totals update immediately when unit changes and remain stable (no NaN/Infinity)."
+        },
+        {
+          "path": "frontend/src/components/all-meals/AllMealsTodaySection.tsx",
+          "operation": "modify",
+          "description": "Adjust saved-meal food item display to show calories/macros that reflect the food’s user-entered amount/unit (scaled nutrients) so what users see in meal details matches the same calculation logic used in Current Meal Builder. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/current-meal/CurrentMealSection.tsx",
+          "operation": "modify",
+          "description": "Ensure any added food (from USDA search or parsed free-text) starts with the user-entered amount/unit and that Current Meal Builder re-renders with updated per-food and meal totals under the new scaling rules. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/servingMath.ts",
+          "operation": "create",
+          "description": "Create a small utility module to centralize: (1) computing a safe multiplier from a FoodItem’s user amount/unit vs baseline serving metadata, (2) scaling a Nutrients object by that multiplier, and (3) optionally returning a human-readable note when conversion is not possible (for UI fallback)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "summary": "Persist baseline serving-size metadata on FoodItem (from USDA results) to convert user-entered grams/units into a multiplier against baseline serving, and use this conversion in meal/day totals with a safe fallback.",
+      "acceptanceCriteria": [
+        "When a food comes from USDA search results, the app stores the baseline serving amount and baseline serving unit alongside the nutrients (so conversions can be computed later).",
+        "If the user selects the same unit as the baseline (e.g., baseline is grams and user chooses grams), the multiplier is computed as (userAmount / baselineServingAmount) and nutrition totals reflect that.",
+        "If the user selects a unit that cannot be safely converted from the baseline unit, the UI uses an English fallback explanation (e.g., “This unit will be treated as a serving multiplier”) and calculations remain stable (no NaN/Infinity)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/domain/models.ts",
+          "operation": "modify",
+          "description": "Extend the FoodItem model to include baseline serving metadata needed for conversions (e.g., baselineServingAmount and baselineServingUnit) while keeping backward compatibility for foods loaded from existing localStorage data."
+        },
+        {
+          "path": "frontend/src/services/nutritionApiClient.ts",
+          "operation": "modify",
+          "description": "When mapping USDA search results into a FoodItem, persist baseline serving amount and baseline serving unit alongside the nutrients so future quantity/unit edits can be converted accurately."
+        },
+        {
+          "path": "frontend/src/utils/aggregations.ts",
+          "operation": "modify",
+          "description": "Use baseline serving metadata (when present) to compute per-food multipliers for totals; fall back to prior behavior when metadata is missing to avoid breaking older saved data."
+        },
+        {
+          "path": "frontend/src/components/current-meal/FoodRowEditor.tsx",
+          "operation": "modify",
+          "description": "Show an English fallback explanation in the row UI when the selected unit cannot be safely converted from the baseline serving unit, while keeping calculations stable via the shared serving conversion logic. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/state/useDayMeals.ts",
+          "operation": "modify",
+          "description": "Ensure day-level persistence and subsequent rendering remain compatible with added FoodItem baseline serving fields (no runtime errors when loading older meals), and keep totals consistent with the updated aggregation logic."
+        }
+      ]
+    },
+    {
+      "id": "REQ-27",
+      "summary": "Improve free-text parsing to recognize inline grams/units (including no-space forms) and apply the parsed quantity/unit to newly added foods so nutrition reflects the parsed amount.",
+      "acceptanceCriteria": [
+        "Free-text entries like “100g rice” and “100 g rice” are parsed as quantity=100 and unit=grams with name “rice”.",
+        "Free-text entries like “2 cups milk” and “2 pieces eggs” are parsed with the correct unit and cleaned name (unit words removed from the name).",
+        "When foods are added from parsed input, the resulting FoodItem starts with the parsed quantity/unit and the displayed nutrition reflects that quantity/unit."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/foodParser.ts",
+          "operation": "modify",
+          "description": "Enhance parsing to robustly detect units for both spaced and no-space forms (e.g., “100g rice”), support common unit keywords/abbreviations (grams, cups, pieces, serving), and remove detected unit tokens from the returned name string."
+        },
+        {
+          "path": "frontend/src/components/current-meal/CurrentMealSection.tsx",
+          "operation": "modify",
+          "description": "Ensure the parsed quantity/unit are applied to the FoodItem added from USDA search results and that the UI immediately displays nutrition scaled to the parsed amount/unit under the shared conversion logic. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/domain/models.ts",
+          "operation": "modify",
+          "description": "Align ParsedFoodInput typing (and any related unit union usage) with newly supported unit parsing (including a serving keyword) while preserving existing behavior for inputs that omit unit."
+        }
+      ]
+    }
+  ]
+}

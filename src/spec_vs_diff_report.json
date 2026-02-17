@@ -1,0 +1,31 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-16T13:20:21.259Z",
+  "summary": "Diff implements the requested per-food quantity+unit editing, baseline serving metadata persistence, serving-multiplier math with safe fallbacks, and enhanced free-text parsing with inline units. Meal/food nutrition display and aggregation are updated to use scaled nutrients.",
+  "missing_requirements": [],
+  "hallucinated_features": [
+    {
+      "description": "Added/modified a footer attribution link (“Built with ❤️ using caffeine.ai”) on the main page.",
+      "reason": "Not requested by REQ-25/26/27 (scope is quantity/unit editing, conversion metadata, and parsing).",
+      "evidence": [
+        "frontend/src/pages/DailyMealNutritionCalculator.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/all-meals/AllMealsTodaySection.tsx",
+    "frontend/src/components/current-meal/CurrentMealSection.tsx",
+    "frontend/src/components/current-meal/FoodRowEditor.tsx",
+    "frontend/src/domain/models.ts",
+    "frontend/src/pages/DailyMealNutritionCalculator.tsx",
+    "frontend/src/services/nutritionApiClient.ts",
+    "frontend/src/state/useDayMeals.ts",
+    "frontend/src/utils/aggregations.ts",
+    "frontend/src/utils/foodParser.ts",
+    "frontend/src/utils/servingMath.ts",
+    "project_state.json"
+  ]
+}

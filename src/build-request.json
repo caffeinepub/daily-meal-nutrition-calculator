@@ -1,0 +1,73 @@
+{
+  "kind": "build_request",
+  "title": "Improve per-food quantity editing to support user-specified grams and units with correct nutrition recalculation",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-25",
+      "text": "Update the food quantity/unit editing so a user can specify an exact amount in grams (and other supported units) per food item, and ensure the app uses that amount when calculating and displaying nutrition.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "edit in a way that i can specify amount of grams or unit of measure as i need"
+        ]
+      },
+      "acceptanceCriteria": [
+        "In the Current Meal Builder, each food row allows editing both quantity and unit of measure in a clear, explicit way (English labels).",
+        "Selecting/entering a grams-based quantity (e.g., 150 grams) changes the computed calories/macros for that food and updates Meal Totals accordingly.",
+        "Changing the unit (e.g., grams -> cups/pieces/serving) updates calculations consistently and does not require re-adding the food item."
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "text": "Persist enough serving-size metadata on each FoodItem to accurately convert user-entered grams (or matching units) into a multiplier against the food’s baseline serving, and use this conversion in meal/day totals.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "edit in a way that i can specify amount of grams or unit of measure as i need"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When a food comes from USDA search results, the app stores the baseline serving amount and baseline serving unit alongside the nutrients (so conversions can be computed later).",
+        "If the user selects the same unit as the baseline (e.g., baseline is grams and user chooses grams), the multiplier is computed as (userAmount / baselineServingAmount) and nutrition totals reflect that.",
+        "If the user selects a unit that cannot be safely converted from the baseline unit, the UI uses an English fallback explanation (e.g., “This unit will be treated as a serving multiplier”) and calculations remain stable (no NaN/Infinity)."
+      ]
+    },
+    {
+      "id": "REQ-27",
+      "text": "Enhance free-text input parsing so users can specify grams/units inline (including no-space forms like “100g rice”), and apply the parsed quantity/unit to the added FoodItem.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "edit in a way that i can specify amount of grams or unit of measure as i need"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Free-text entries like “100g rice” and “100 g rice” are parsed as quantity=100 and unit=grams with name “rice”.",
+        "Free-text entries like “2 cups milk” and “2 pieces eggs” are parsed with the correct unit and cleaned name (unit words removed from the name).",
+        "When foods are added from parsed input, the resulting FoodItem starts with the parsed quantity/unit and the displayed nutrition reflects that quantity/unit."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit any files under frontend/src/components/ui (compose existing UI components only).",
+    "Do not edit files listed as immutable in SYSTEM_CONTEXT (e.g., frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx)."
+  ],
+  "nonGoals": [
+    "Do not add new backend persistence or database features for units/servings; implement this within existing frontend state/localStorage flows.",
+    "Do not add third-party unit-conversion libraries or external services."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
